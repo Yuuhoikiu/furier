@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音乐播放器测试</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: sans-serif;
+    }
+    .player {
+      text-align: center;
+      padding: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background: linear-gradient(135deg, #ff6b6b, #feca57);
+      border: none;
+      border-radius: 30px;
+      color: white;
+      cursor: pointer;
+      margin: 10px;
+    }
+    button:hover { transform: scale(1.05); }
+    audio { width: 100%; max-width: 400px; margin-top: 20px; }
+    .song-list { margin-top: 20px; }
+    .song-item { padding: 10px; cursor: pointer; border-radius: 8px; }
+    .song-item:hover { background: rgba(255,255,255,0.1); }
+  </style>
+</head>
+<body>
+  <div class="player">
+    <h1>音乐播放器</h1>
+    <audio id="audio" controls></audio>
+    
+    <div class="song-list">
+      <div class="song-item" data-src="album/Wind Chime.mp3">1. Wind Chime</div>
+      <div class="song-item" data-src="album/The Fading Glow of the Sunset（remix）.mp3">2. The Fading Glow of the Sunset（remix）</div>
+      <div class="song-item" data-src="album/Birch and the Long Wind.mp3">3. Birch and the Long Wind</div>
+      <div class="song-item" data-src="album/Wind Chime Crossing the Boundary.mp3">4. Wind Chime Crossing the Boundary</div>
+    </div>
+  </div>
+
+  <script>
+    const audio = document.getElementById('audio');
+    const songItems = document.querySelectorAll('.song-item');
+    
+    songItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const src = item.dataset.src;
+        audio.src = src;
+        audio.play().catch(err => {
+          console.error('播放失败:', err);
+          alert('播放失败: ' + err.message);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

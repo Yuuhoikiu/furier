@@ -1,0 +1,37 @@
+name: 自动生成评论区帖子清单
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'comments/**'
+      - 'scripts/build_comments.py'
+      - '.github/workflows/build-comments.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 扫描帖子并生成 posts.js
+        run: python3 scripts/build_comments.py
+
+      - name: 提交更新
+        run: |
+          if git diff --quiet -- comments/posts.js; then
+            echo "posts.js 无变化"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add comments/posts.js
+          git commit -m "chore: 更新评论区帖子清单"
+          git push

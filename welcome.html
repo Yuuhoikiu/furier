@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    // 主站只能从开发者页面进入，直接访问封面页时退回开发者页
+    (function () {
+      if (new URLSearchParams(location.search).get('from') !== 'dev') {
+        window.location.replace('personal/index.html');
+      }
+    })();
+  </script>
+  <title>Fourier</title>
+  <link rel="icon" href="icon/p3.ico">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-image: url('fs/fs.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+    
+    .curtain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(97, 93, 93, 0.9);
+      z-index: 2;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
+    
+    .welcome-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      text-align: center;
+      color: white;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 20px;
+    }
+    
+    .title {
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-family: 'DIN Bold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-weight: bold;
+      color: #9dd49f;
+      text-transform: uppercase;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 0.5rem;
+    }
+    
+    .title:hover {
+      transform: translateY(-5px);
+      text-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+    }
+    
+    .subtitle {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-family: 'Yaoti SC', '姚体', 'Microsoft YaHei', 'SimSun', serif;
+      color: #49c088;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      margin-bottom: 2rem;
+    }
+    
+    .character-container {
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .character {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 90vh;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .fade-in {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .character-container {
+        bottom: 5%;
+        right: 5%;
+      }
+      
+      .character {
+        width: clamp(100px, 15vw, 200px);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .character-container {
+        bottom: 2%;
+        right: 2%;
+      }
+      
+      .character {
+        width: clamp(80px, 12vw, 150px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="curtain" id="curtain"></div>
+  <div class="welcome-container fade-in">
+    <h1 class="title" onclick="enterMain()">Fourier</h1>
+    <p class="subtitle">店长只是偷偷睡一会</p>
+  </div>
+  
+  <div class="character-container">
+    <img src="fs/b1.png" alt="Character" class="character fade-in" id="character" onmouseover="changeCharacter('b2'); removeCurtain()" onmouseout="changeCharacter('b1'); showCurtain()" onclick="enterMain()">
+  </div>
+  
+  <script>
+    // 首次访问的跳转已在 head 中同步处理，这里只负责封面淡入
+    window.addEventListener('load', function() {
+      const elements = document.querySelectorAll('.fade-in');
+      elements.forEach((element, index) => {
+        setTimeout(() => {
+          element.style.opacity = '1';
+        }, index * 300);
+      });
+    });
+    
+    function enterMain() {
+      window.location.href = 'index.html?from=dev';
+    }
+    
+    function changeCharacter(type) {
+      const character = document.getElementById('character');
+      character.src = `fs/${type}.png`;
+    }
+    
+    function removeCurtain() {
+      const curtain = document.getElementById('curtain');
+      curtain.style.opacity = '0';
+    }
+    
+    function showCurtain() {
+      const curtain = document.getElementById('curtain');
+      curtain.style.opacity = '1';
+    }
+  </script>
+</body>
+</html>
