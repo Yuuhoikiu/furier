@@ -568,7 +568,9 @@
       
       const coverImg = el.albumCover.querySelector('img');
       el.albumCover.classList.toggle('no-cover', !song.cover);
+      coverImg.onerror = () => el.albumCover.classList.add('no-cover');
       if (song.cover) {
+        el.albumCover.classList.remove('no-cover');
         coverImg.src = song.cover;
         coverImg.alt = `${song.title} 封面`;
       }
