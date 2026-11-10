@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="秋云的小屋 - 综合性学习资源平台">
   <meta name="keywords" content="学习资源,评论区,帖子,分享">
   <meta name="author" content="秋云">
@@ -741,6 +741,37 @@
       opacity: 0.85;
     }
     
+    .drop-pick-btn {
+      margin-top: 16px;
+      padding: 10px 22px;
+      min-height: 44px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #333;
+      font-size: 14px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .drop-pick-btn:hover {
+      background-color: #fff;
+    }
+    
+    .comments-title {
+      font-size: 40px;
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .comments-subtitle {
+      font-size: 20px;
+      margin-bottom: 30px;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
     .comment-toolbar {
       max-width: 760px;
       margin: 0 auto 24px;
@@ -856,8 +887,70 @@
     
     .comment-card-footer {
       display: flex;
-      justify-content: flex-end;
-      margin-top: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    
+    .comment-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .reaction-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      min-height: 38px;
+      border-radius: 20px;
+      background-color: rgba(0, 0, 0, 0.05);
+      color: #555;
+      font-size: 13px;
+      line-height: 1;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+    
+    .reaction-btn::before {
+      display: none;
+    }
+    
+    .reaction-btn:hover {
+      background-color: rgba(102, 126, 234, 0.14);
+      box-shadow: none;
+      transform: translateY(-1px);
+    }
+    
+    .reaction-btn:active {
+      transform: scale(0.96);
+    }
+    
+    .reaction-btn .reaction-icon {
+      font-size: 15px;
+      line-height: 1;
+    }
+    
+    .reaction-btn .reaction-count {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+    
+    .reaction-btn.active.like {
+      background-color: rgba(76, 175, 80, 0.16);
+      color: #2e7d32;
+    }
+    
+    .reaction-btn.active.dislike {
+      background-color: rgba(244, 67, 54, 0.14);
+      color: #c62828;
     }
     
     .comment-delete {
@@ -865,10 +958,17 @@
       color: #c0392b;
       background: none;
       cursor: pointer;
+      padding: 6px 4px;
+    }
+    
+    .comment-delete::before {
+      display: none;
     }
     
     .comment-delete:hover {
       text-decoration: underline;
+      box-shadow: none;
+      transform: none;
     }
     
     .comment-empty {
@@ -880,20 +980,125 @@
     }
     
     @media (max-width: 600px) {
-      .comment-card {
-        padding: 18px;
+      .comments-title {
+        font-size: 26px !important;
+        margin-bottom: 12px;
       }
       
-      .comment-images {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      }
-      
-      .comment-images img {
-        height: 100px;
+      .comments-subtitle {
+        font-size: 15px !important;
+        margin-bottom: 20px;
       }
       
       .drop-zone {
-        padding: 26px 16px;
+        padding: 24px 16px;
+        margin-bottom: 16px;
+        border-radius: 12px;
+      }
+      
+      .drop-icon {
+        font-size: 34px;
+        margin-bottom: 8px;
+      }
+      
+      .drop-title {
+        font-size: 17px;
+      }
+      
+      .drop-sub {
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      
+      .comment-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 18px;
+        font-size: 13px;
+        text-align: center;
+      }
+      
+      .comment-toolbar-actions {
+        display: flex;
+        gap: 8px;
+      }
+      
+      .comment-toolbar button {
+        flex: 1;
+        min-height: 42px;
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+      
+      .comment-list {
+        gap: 14px;
+      }
+      
+      .comment-card {
+        padding: 16px;
+        border-radius: 10px;
+      }
+      
+      .comment-card-header {
+        gap: 4px;
+        margin-bottom: 8px;
+      }
+      
+      .comment-card-title {
+        font-size: 17px;
+        line-height: 1.45;
+        width: 100%;
+      }
+      
+      .comment-card-meta {
+        font-size: 12px;
+      }
+      
+      .comment-card-content {
+        font-size: 14px;
+        line-height: 1.75;
+      }
+      
+      .comment-images {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 12px;
+      }
+      
+      .comment-images img {
+        height: auto;
+        aspect-ratio: 1 / 1;
+      }
+      
+      .comment-card-footer {
+        gap: 8px;
+        margin-top: 12px;
+        padding-top: 10px;
+      }
+      
+      .comment-actions {
+        width: 100%;
+        gap: 8px;
+      }
+      
+      .reaction-btn {
+        flex: 1;
+        justify-content: center;
+        min-height: 42px;
+        padding: 8px 10px;
+        font-size: 13px;
+      }
+      
+      .comment-delete {
+        width: 100%;
+        text-align: right;
+        min-height: 32px;
+      }
+      
+      .comment-empty {
+        padding: 20px 12px;
+        font-size: 14px;
       }
     }
     
@@ -1144,18 +1349,32 @@
     @media (max-width: 480px) {
       #container {
         padding: 0.75rem;
+        padding-left: max(0.75rem, env(safe-area-inset-left));
+        padding-right: max(0.75rem, env(safe-area-inset-right));
       }
       
       .nav-menu {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 6px;
       }
       
       .nav-item {
-        width: 100%;
+        flex: 0 0 calc(50% - 3px);
+        width: auto;
         text-align: center;
-        margin: 3px 0;
-        padding: 0.6rem 1rem;
+        margin: 0;
+        padding: 0.7rem 0.5rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+      }
+      
+      .content-section {
+        padding: 1rem !important;
       }
       
       .resource-item {
@@ -1426,13 +1645,15 @@
     <!-- 评论区界面 -->
     <div id="comments" class="page">
       <div class="content-section fade-in-up delay-100" style="background: transparent; text-align: center;">
-        <h2 style="font-size: 40px; margin-bottom: 20px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">评论区</h2>
-        <p style="font-size: 20px; margin-bottom: 30px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">把帖子文件夹拖入下方区域，即可立即出现一条帖子。</p>
+        <h2 class="comments-title">评论区</h2>
+        <p class="comments-subtitle">把帖子文件夹拖入下方区域，即可立即出现一条帖子。</p>
 
         <div id="dropZone" class="drop-zone fade-in-up delay-200">
           <div class="drop-icon">📁</div>
           <p class="drop-title">拖入帖子文件夹到此处</p>
           <p class="drop-sub">文件夹内需包含固定格式的 post.json，图片放在同一文件夹即可</p>
+          <button type="button" id="pickFolderBtn" class="drop-pick-btn">选择帖子文件夹</button>
+          <input type="file" id="folderInput" webkitdirectory directory multiple hidden>
         </div>
 
         <div class="comment-toolbar fade-in-up delay-300">
@@ -1791,6 +2012,18 @@
       const clearImportedBtn = document.getElementById('clearImportedBtn');
       const baseCommentPosts = Array.isArray(window.COMMENT_POSTS) ? window.COMMENT_POSTS : [];
       
+      // 点赞/点踩记录（无后端，保存在当前浏览器）
+      const REACTION_STORAGE_KEY = 'commentReactions';
+      const reactionLabels = { like: '点赞', dislike: '点踩' };
+      
+      let commentReactions = {};
+      try {
+        const storedReactions = JSON.parse(localStorage.getItem(REACTION_STORAGE_KEY) || '{}');
+        commentReactions = storedReactions && typeof storedReactions === 'object' ? storedReactions : {};
+      } catch (error) {
+        commentReactions = {};
+      }
+      
       // 本地导入的帖子（图片以 DataURL 保存，仅当前浏览器可见）
       let importedCommentPosts = [];
       try {
@@ -1809,6 +2042,103 @@
           showNotification('图片过大，本地保存失败，本次帖子仅在当前页面显示', 'error');
           return false;
         }
+      }
+      
+      function getPostKey(post) {
+        return post.localId ? `local:${post.localId}` : `post:${post.folder || post.title || ''}`;
+      }
+      
+      function getReaction(key) {
+        const value = commentReactions[key];
+        const isValidVote = value && (value.vote === 'like' || value.vote === 'dislike');
+        return {
+          like: value ? Math.max(0, Number(value.like) || 0) : 0,
+          dislike: value ? Math.max(0, Number(value.dislike) || 0) : 0,
+          vote: isValidVote ? value.vote : ''
+        };
+      }
+      
+      function saveReactions() {
+        try {
+          localStorage.setItem(REACTION_STORAGE_KEY, JSON.stringify(commentReactions));
+        } catch (error) {
+          console.error('保存点赞记录失败:', error);
+        }
+      }
+      
+      // 点赞与点踩互斥，再次点击同一按钮则取消
+      function toggleVote(key, vote) {
+        const reaction = getReaction(key);
+        
+        if (reaction.vote === vote) {
+          reaction[vote] = Math.max(0, reaction[vote] - 1);
+          reaction.vote = '';
+        } else {
+          if (reaction.vote) {
+            reaction[reaction.vote] = Math.max(0, reaction[reaction.vote] - 1);
+          }
+          reaction[vote] += 1;
+          reaction.vote = vote;
+        }
+        
+        if (!reaction.like && !reaction.dislike) {
+          delete commentReactions[key];
+        } else {
+          commentReactions[key] = reaction;
+        }
+        
+        saveReactions();
+        return reaction;
+      }
+      
+      function syncReactionButtons(actionsEl, key) {
+        const reaction = getReaction(key);
+        actionsEl.querySelectorAll('.reaction-btn').forEach(btn => {
+          const type = btn.dataset.vote;
+          const active = reaction.vote === type;
+          btn.classList.toggle('active', active);
+          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+          btn.querySelector('.reaction-count').textContent = String(reaction[type] || 0);
+        });
+      }
+      
+      function buildReactionActions(post) {
+        const key = getPostKey(post);
+        const actions = document.createElement('div');
+        actions.className = 'comment-actions';
+        
+        [['like', '👍'], ['dislike', '👎']].forEach(([type, icon]) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `reaction-btn ${type}`;
+          btn.dataset.vote = type;
+          btn.setAttribute('aria-pressed', 'false');
+          btn.title = `${reactionLabels[type]}记录保存在本机浏览器，仅自己可见`;
+          
+          const iconEl = document.createElement('span');
+          iconEl.className = 'reaction-icon';
+          iconEl.textContent = icon;
+          iconEl.setAttribute('aria-hidden', 'true');
+          
+          const label = document.createElement('span');
+          label.className = 'reaction-label';
+          label.textContent = reactionLabels[type];
+          
+          const count = document.createElement('span');
+          count.className = 'reaction-count';
+          count.textContent = '0';
+          
+          btn.append(iconEl, label, count);
+          btn.addEventListener('click', () => {
+            toggleVote(key, type);
+            syncReactionButtons(actions, key);
+          });
+          
+          actions.appendChild(btn);
+        });
+        
+        syncReactionButtons(actions, key);
+        return actions;
       }
       
       function createPostCard(post) {
@@ -1875,10 +2205,11 @@
           card.appendChild(gallery);
         }
         
+        const footer = document.createElement('div');
+        footer.className = 'comment-card-footer';
+        footer.appendChild(buildReactionActions(post));
+        
         if (post.localId) {
-          const footer = document.createElement('div');
-          footer.className = 'comment-card-footer';
-          
           const removeBtn = document.createElement('button');
           removeBtn.type = 'button';
           removeBtn.className = 'comment-delete';
@@ -1891,8 +2222,9 @@
           });
           
           footer.appendChild(removeBtn);
-          card.appendChild(footer);
         }
+        
+        card.appendChild(footer);
         
         return card;
       }
@@ -1980,8 +2312,7 @@
         });
       }
       
-      async function importDroppedPosts(dataTransfer) {
-        const files = await collectDroppedFiles(dataTransfer);
+      async function importPostsFromFiles(files) {
         const jsonFile = files.find(item => item.file.name.toLowerCase() === 'post.json');
         
         if (!jsonFile) {
@@ -2052,7 +2383,43 @@
           dropZone.classList.remove('dragover');
           
           try {
-            const post = await importDroppedPosts(event.dataTransfer);
+            const files = await collectDroppedFiles(event.dataTransfer);
+            const post = await importPostsFromFiles(files);
+            importedCommentPosts.push(post);
+            saveImportedComments();
+            renderComments();
+            showNotification(`已导入帖子：${post.title}`, 'success');
+          } catch (error) {
+            console.error('导入帖子失败:', error);
+            showNotification(error.message || '导入失败，请检查文件夹格式', 'error');
+          }
+        });
+      }
+      
+      // 手机端无法拖拽，改为点选文件夹
+      const pickFolderBtn = document.getElementById('pickFolderBtn');
+      const folderInput = document.getElementById('folderInput');
+      
+      if (pickFolderBtn && folderInput && commentList) {
+        pickFolderBtn.addEventListener('click', () => folderInput.click());
+        
+        folderInput.addEventListener('change', async () => {
+          const files = Array.from(folderInput.files || []).map(file => {
+            const relative = file.webkitRelativePath || '';
+            const slash = relative.lastIndexOf('/');
+            return {
+              file,
+              path: slash >= 0 ? relative.slice(0, slash + 1) : ''
+            };
+          });
+          folderInput.value = '';
+          
+          if (!files.length) {
+            return;
+          }
+          
+          try {
+            const post = await importPostsFromFiles(files);
             importedCommentPosts.push(post);
             saveImportedComments();
             renderComments();
